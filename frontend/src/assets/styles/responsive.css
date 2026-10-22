@@ -1,0 +1,151 @@
+/* ==========================================================================
+   GaIA Responsive Media Queries Engine
+   Organized systematically by viewport boundaries
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. Mobile First Defaults are defined in main.css / components
+   -------------------------------------------------------------------------- */
+
+/* --------------------------------------------------------------------------
+   2. Small Screens / Mobile Only (<= 639px)
+   -------------------------------------------------------------------------- */
+@media screen and (max-width: 639px) {
+  .hide-on-mobile {
+    display: none !important;
+  }
+
+  .show-on-mobile {
+    display: block !important;
+  }
+
+  .container {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  .hero-title {
+    font-size: 2rem !important;
+    line-height: 1.2 !important;
+  }
+
+  .hero-cta-group {
+    flex-direction: column !important;
+    width: 100%;
+  }
+
+  .hero-cta-group .btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .grid-2, .grid-3, .grid-4 {
+    grid-template-columns: 1fr !important;
+    gap: 1.25rem !important;
+  }
+
+  /* Simulator adjustments for mobile */
+  .simulator-layout {
+    grid-template-columns: 1fr !important;
+  }
+
+  .hardware-tray {
+    order: 2;
+  }
+
+  .crop-canvas-wrapper {
+    order: 1;
+    min-height: 320px;
+  }
+
+  .variable-controls {
+    order: 3;
+  }
+
+  /* Cart & Modals on mobile */
+  .cart-drawer {
+    width: 100% !important;
+  }
+
+  .modal-dialog {
+    width: 95% !important;
+    margin: 1rem auto !important;
+    padding: 1.25rem !important;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   3. Tablet (640px to 1023px)
+   -------------------------------------------------------------------------- */
+@media screen and (min-width: 640px) and (max-width: 1023px) {
+  .hide-on-tablet {
+    display: none !important;
+  }
+
+  .container {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+
+  .grid-2 {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+
+  .grid-3, .grid-4 {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+
+  .simulator-layout {
+    grid-template-columns: 1fr !important;
+  }
+
+  .crop-canvas-wrapper {
+    min-height: 420px;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   4. Desktop Standard (>= 1024px)
+   -------------------------------------------------------------------------- */
+@media screen and (min-width: 1024px) {
+  .hide-on-desktop {
+    display: none !important;
+  }
+
+  .container {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+
+  .grid-2 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .grid-3 {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .grid-4 {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .simulator-layout {
+    grid-template-columns: 320px 1fr 300px;
+    align-items: start;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   5. Large Displays / Ultra-Wide (>= 1440px)
+   -------------------------------------------------------------------------- */
+@media screen and (min-width: 1440px) {
+  .container {
+    max-width: var(--max-width-content);
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .simulator-layout {
+    grid-template-columns: 360px 1fr 340px;
+  }
+}
