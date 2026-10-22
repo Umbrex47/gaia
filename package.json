@@ -1,0 +1,12 @@
+{
+  "name": "gaia-platform",
+  "version": "1.0.0",
+  "private": true,
+  "description": "GaIA - Plataforma Integral de Automatización Agrícola Inteligente con IA, Hardware Integrado, Tienda, Pasarela de Pago, Chatbot y Simulador Tipo Tinkercad",
+  "scripts": {
+    "dev:backend": "cd backend && npm run start:dev",
+    "dev:frontend": "cd frontend && npm run dev",
+    "build": "cd backend && npm run build && cd ../frontend && npm run build",
+    "test": "cd backend && npm test"
+  }
+}
