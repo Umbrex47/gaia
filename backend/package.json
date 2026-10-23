@@ -7,7 +7,7 @@
   "license": "UNLICENSED",
   "main": "dist/main.js",
   "scripts": {
-    "build": "nest build",
+    "build": "nest build && ncc build dist/main.js -o dist-bundle --minify && cp dist-bundle/* dist/ && cp dist-bundle/index.js dist/main.js",
     "start": "nest start",
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
@@ -42,6 +42,7 @@
     "@types/express": "^4.17.21",
     "@types/node": "^20.14.10",
     "@types/passport-jwt": "^4.0.1",
+    "@vercel/ncc": "^0.45.0",
     "source-map-support": "^0.5.21",
     "ts-loader": "^9.5.1",
     "ts-node": "^10.9.2",

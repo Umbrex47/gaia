@@ -3,6 +3,8 @@ node_modules/
 
 # Production builds
 dist/
+dist-bundle/
+dist-ncc/
 build/
 *.tsbuildinfo
 
