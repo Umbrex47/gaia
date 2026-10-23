@@ -19,9 +19,24 @@ export interface RegisterResult {
 }
 
 function getRedirectUrl(): string {
+  const configuredAppUrl =
+    (import.meta as any).env?.VITE_APP_URL ||
+    (import.meta as any).env?.NEXT_PUBLIC_APP_URL;
+
+  // Si estamos en el navegador en un dominio público real (Vercel, dominio personalizado)
   if (typeof window !== 'undefined' && window.location?.origin) {
-    return `${window.location.origin}/auth/callback`;
+    const origin = window.location.origin;
+    if (!origin.includes('localhost') && !origin.includes('127.0.0.1')) {
+      return `${origin}/auth/callback`;
+    }
   }
+
+  // Si estamos en desarrollo local (localhost), usar siempre la URL de producción
+  // para que el enlace enviado por correo sea accesible globalmente y no apunte a localhost
+  if (configuredAppUrl) {
+    return `${configuredAppUrl.replace(/\/$/, '')}/auth/callback`;
+  }
+
   return 'https://gaia-agrotech.vercel.app/auth/callback';
 }
 
