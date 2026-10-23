@@ -385,6 +385,15 @@ function handleClose() {
                 <!-- Container where PayPal JS SDK injects buttons -->
                 <div id="paypal-button-container" class="paypal-buttons-mount"></div>
 
+                <!-- Fallback to direct card input if popup is blocked -->
+                <div class="alt-card-switch-banner" @click="paymentMethod = 'card'">
+                  <CreditCard :size="15" class="text-neon" />
+                  <div class="alt-card-switch-text">
+                    <strong>¿Prefieres ingresar tu tarjeta directamente?</strong>
+                    <span>Haz clic aquí para abrir el formulario seguro con número, fecha y CVV &rarr;</span>
+                  </div>
+                </div>
+
                 <div v-if="isSubmitting" class="paypal-processing-overlay">
                   <div class="spinner-box"></div>
                   <span>Procesando pago seguro...</span>
@@ -744,6 +753,43 @@ function handleClose() {
   min-height: 90px;
   position: relative;
   z-index: 5;
+}
+
+.alt-card-switch-banner {
+  margin-top: 1.15rem;
+  padding: 10px 14px;
+  background: rgba(0, 55, 52, 0.4);
+  border: 1px dashed rgba(0, 223, 162, 0.35);
+  border-radius: var(--radius-button);
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.alt-card-switch-banner:hover {
+  background: rgba(0, 55, 52, 0.7);
+  border-color: rgba(0, 223, 162, 0.7);
+}
+
+.alt-card-switch-text {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  font-family: var(--font-matter);
+  font-size: 12px;
+  line-height: 1.35;
+}
+
+.alt-card-switch-text strong {
+  color: var(--color-platinum);
+  font-weight: 500;
+}
+
+.alt-card-switch-text span {
+  color: #70ffe5;
+  font-size: 11.5px;
 }
 
 .paypal-processing-overlay {

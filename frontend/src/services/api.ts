@@ -188,14 +188,11 @@ class ApiService {
         body: JSON.stringify(orderData),
       });
       if (res.ok) return await res.json();
-      throw new Error('API offline');
-    } catch {
-      // In case backend is offline, return synthetic PayPal order ID
-      return {
-        id: `PP-GAIA-ORDER-${Date.now()}`,
-        status: 'CREATED',
-        links: []
-      };
+      const errData = await res.json().catch(() => ({}));
+      throw new Error(errData.message || 'Error al iniciar la orden en PayPal');
+    } catch (err: any) {
+      console.error('Fallo en createPayPalOrder:', err);
+      throw err;
     }
   }
 
