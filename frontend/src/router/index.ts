@@ -92,6 +92,15 @@ const router = createRouter({
         openAuthModal: 'login',
       },
     },
+    {
+      path: '/auth/callback',
+      name: 'auth-callback',
+      component: () => import('../views/AuthCallbackView.vue'),
+      meta: {
+        title: 'Validación de Cuenta | GaIA AgroTech',
+        description: 'Verificación de cuenta y activación de productor agrícola.',
+      },
+    },
   ],
 });
 
