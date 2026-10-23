@@ -61,7 +61,7 @@ export const SEED_PRODUCTS: Product[] = [
       'Batería': 'Litio-Tionilo 3.6V (Duración hasta 5 años)',
       'Protección': 'IP68 Sumergible continuo'
     },
-    image: 'https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=600&q=80',
+    image: '/images/products/soilsense-pro.jpg',
     stock: 65,
     tags: ['IoT', 'Humedad', 'LoRaWAN', 'Suelo'],
     simulatorCompatible: true,
@@ -85,7 +85,7 @@ export const SEED_PRODUCTS: Product[] = [
       'Caudal Máximo': '15 m³/hora',
       'Modos': 'Apertura porcentual, temporizado y por volumen m³'
     },
-    image: 'https://images.unsplash.com/photo-1590496793929-36417d3117de?auto=format&fit=crop&w=600&q=80',
+    image: '/images/products/hydrovalve-24v.jpg',
     stock: 42,
     tags: ['Riego', 'Válvula', 'Solar', 'Automatización'],
     simulatorCompatible: true,
@@ -109,7 +109,7 @@ export const SEED_PRODUCTS: Product[] = [
       'Posicionamiento': 'RTK con precisión de 1.5 cm',
       'Misión': 'Vuelo autónomo por waypoints calculados por IA'
     },
-    image: 'https://images.unsplash.com/photo-1527977966376-1c8408f9f108?auto=format&fit=crop&w=600&q=80',
+    image: '/images/products/aeroscout-x4.jpg',
     stock: 12,
     tags: ['Dron', 'NDVI', 'Multiespectral', 'Plagas'],
     simulatorCompatible: true,
@@ -132,7 +132,7 @@ export const SEED_PRODUCTS: Product[] = [
       'Alimentación': 'Panel solar 20W integrado + Batería para 15 días sin sol',
       'Intervalo de Telemetría': 'Configurable de 1 a 60 minutos'
     },
-    image: 'https://images.unsplash.com/photo-1592417817098-8f3d6910985c?auto=format&fit=crop&w=600&q=80',
+    image: '/images/products/meteostation-4g.jpg',
     stock: 25,
     tags: ['Clima', 'Meteorología', 'Pluviómetro', 'Radiación'],
     simulatorCompatible: true,
@@ -156,7 +156,7 @@ export const SEED_PRODUCTS: Product[] = [
       'Almacenamiento': '128GB NVMe de grado industrial para historial agronómico',
       'Gabinete': 'NEMA 4X / IP66 con llave de seguridad y disipador pasivo'
     },
-    image: 'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=600&q=80',
+    image: '/images/products/brain-hub.jpg',
     stock: 30,
     tags: ['Edge AI', 'Hub', 'LoRa Gateway', 'Cerebro'],
     simulatorCompatible: true,
@@ -178,7 +178,7 @@ export const SEED_PRODUCTS: Product[] = [
       'Control': 'PWM digital mediante protocolo Modbus / GaIA Link',
       'Material': 'PVDF de alta resistencia química a ácidos y abonos concentrados'
     },
-    image: 'https://images.unsplash.com/photo-1615811361523-6bd03d7748e7?auto=format&fit=crop&w=600&q=80',
+    image: '/images/products/precision-nutri.jpg',
     stock: 18,
     tags: ['Fertirriego', 'Nutrientes', 'Inyector'],
     simulatorCompatible: false

@@ -354,16 +354,18 @@ function handleQuickAdd(product: Product, event: Event) {
 
 .mouse {
   height: 200px;
-  max-width: 82%;
+  max-width: 84%;
   width: auto;
   object-fit: cover;
   border-radius: 14px;
-  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.5);
-  transition: 0.5s ease;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.6);
+  transition: 0.5s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .card:hover .mouse {
-  transform: scale(1.06) rotate(-2deg);
+  transform: scale(1.05) translateY(-4px);
+  box-shadow: 0 20px 35px rgba(0, 0, 0, 0.7);
 }
 
 .card .contentBox {
