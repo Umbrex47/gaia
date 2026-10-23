@@ -128,9 +128,15 @@ export class PayPalService {
     });
 
     if (!response.ok) {
-      const err = await response.json();
+      const errText = await response.text();
+      let err: any = {};
+      try {
+        err = JSON.parse(errText);
+      } catch {
+        err = { message: errText };
+      }
       this.logger.error(`Error creando orden en PayPal: ${JSON.stringify(err)}`);
-      throw new BadRequestException(err.message || 'Error al iniciar pago en PayPal');
+      throw new BadRequestException(err.message || err.error_description || 'Error al iniciar pago en PayPal');
     }
 
     const orderData = await response.json();
@@ -153,7 +159,13 @@ export class PayPalService {
     });
 
     if (!response.ok) {
-      const err = await response.json();
+      const errText = await response.text();
+      let err: any = {};
+      try {
+        err = JSON.parse(errText);
+      } catch {
+        err = { message: errText };
+      }
       this.logger.error(`Error capturando orden de PayPal: ${JSON.stringify(err)}`);
       throw new BadRequestException(err.message || 'Error al procesar el pago de PayPal');
     }
