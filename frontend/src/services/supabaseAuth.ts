@@ -156,6 +156,80 @@ export const supabaseAuthService = {
   },
 
   /**
+   * Valida una cuenta ingresando directamente un código OTP, token o enlace recibido por correo
+   */
+  async verifyOtpToken(email: string, tokenOrUrl: string): Promise<{ session: any; user: User | null }> {
+    const raw = tokenOrUrl.trim();
+
+    // Si el usuario pegó un enlace (ej: http://localhost:3000/auth/v1/verify?token=... o token_hash=...)
+    if (raw.includes('http') || raw.includes('?') || raw.includes('token') || raw.includes('code=')) {
+      try {
+        let urlStr = raw;
+        if (urlStr.startsWith('localhost')) urlStr = 'http://' + urlStr;
+        const parsed = new URL(urlStr);
+        const code = parsed.searchParams.get('code');
+        const tokenHash = parsed.searchParams.get('token_hash');
+        const token = parsed.searchParams.get('token');
+        const type = parsed.searchParams.get('type') || 'signup';
+
+        if (code) {
+          const { data, error } = await supabase.auth.exchangeCodeForSession(code);
+          if (!error && data?.session && data?.user) {
+            return { session: data.session, user: this.mapUser(data.user) };
+          }
+        }
+
+        if (tokenHash) {
+          const { data, error } = await supabase.auth.verifyOtp({
+            token_hash: tokenHash,
+            type: type as any,
+          });
+          if (!error && data?.session && data?.user) {
+            return { session: data.session, user: this.mapUser(data.user) };
+          }
+        }
+
+        if (token) {
+          const { data, error } = await supabase.auth.verifyOtp({
+            email,
+            token,
+            type: type as any,
+          });
+          if (!error && data?.session && data?.user) {
+            return { session: data.session, user: this.mapUser(data.user) };
+          }
+        }
+      } catch (e: any) {
+        console.warn('Fallo al parsear URL de token:', e);
+      }
+    }
+
+    // Intentar como código directo (OTP o token string) con type 'signup'
+    const { data, error } = await supabase.auth.verifyOtp({
+      email,
+      token: raw,
+      type: 'signup',
+    });
+
+    if (!error && data?.session && data?.user) {
+      return { session: data.session, user: this.mapUser(data.user) };
+    }
+
+    // Intentar con type 'email' por compatibilidad con diferentes versiones de GoTrue
+    const { data: data2, error: error2 } = await supabase.auth.verifyOtp({
+      email,
+      token: raw,
+      type: 'email' as any,
+    });
+
+    if (!error2 && data2?.session && data2?.user) {
+      return { session: data2.session, user: this.mapUser(data2.user) };
+    }
+
+    throw new Error(error?.message || error2?.message || 'Código o token de validación inválido.');
+  },
+
+  /**
    * Procesa la confirmación de cuenta desde el enlace de correo (Callback)
    */
   async handleAuthCallback(): Promise<{ session: any; user: User | null }> {

@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue';
+import confetti from 'canvas-confetti';
 import { 
   X, Lock, Mail, User as UserIcon, 
   MapPin, AlertCircle, Sparkles, CheckCircle2,
@@ -8,6 +9,23 @@ import {
 import { useAuthStore } from '../../stores/auth';
 
 const authStore = useAuthStore();
+
+const manualTokenInput = ref('');
+
+async function handleManualTokenVerify() {
+  if (!manualTokenInput.value.trim()) return;
+  const ok = await authStore.verifyManualToken(manualTokenInput.value.trim());
+  if (ok) {
+    try {
+      confetti({
+        particleCount: 90,
+        spread: 75,
+        origin: { y: 0.6 },
+        colors: ['#00dfa2', '#70ffe5', '#10b981', '#ffffff'],
+      });
+    } catch {}
+  }
+}
 
 const loginForm = ref({
   email: '',
@@ -258,6 +276,34 @@ function goToVerificationFromLogin() {
           <p class="spam-hint">
             💡 ¿No ves el correo? Revisa en tu carpeta de <strong>Spam o Correo no deseado</strong> o en la pestaña de <em>Promociones</em>.
           </p>
+
+          <!-- Direct Activation Box (Fix for localhost links) -->
+          <div class="manual-token-card">
+            <div class="manual-token-header">
+              <Sparkles :size="15" class="text-neon" />
+              <span>¿El enlace del correo te envía a localhost?</span>
+            </div>
+            <p class="manual-token-desc">
+              Pega aquí el enlace de tu correo (o el código numérico) para activar tu cuenta de inmediato:
+            </p>
+            <div class="manual-token-input-row">
+              <input 
+                v-model="manualTokenInput" 
+                type="text" 
+                class="form-control manual-token-input" 
+                placeholder="Pega el enlace recibido o código aquí..." 
+                @keyup.enter="handleManualTokenVerify"
+              />
+              <button 
+                type="button" 
+                class="btn btn-primary btn-sm btn-verify-token" 
+                :disabled="!manualTokenInput.trim() || authStore.isLoading"
+                @click="handleManualTokenVerify"
+              >
+                <span>{{ authStore.isLoading ? 'Validando...' : 'Activar' }}</span>
+              </button>
+            </div>
+          </div>
 
           <!-- Success Alert when Resend succeeds -->
           <div v-if="authStore.resendSuccessMessage" class="resend-success-banner">
@@ -715,6 +761,62 @@ function goToVerificationFromLogin() {
   color: var(--color-silver-mist);
   margin-bottom: 1.25rem;
   line-height: 1.4;
+}
+
+.manual-token-card {
+  width: 100%;
+  background: rgba(0, 55, 52, 0.45);
+  border: 1px dashed rgba(0, 223, 162, 0.35);
+  border-radius: var(--radius-button);
+  padding: 12px 14px;
+  margin-bottom: 1.15rem;
+  text-align: left;
+}
+
+.manual-token-header {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-family: var(--font-matter);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-neon);
+  margin-bottom: 0.35rem;
+}
+
+.manual-token-desc {
+  font-family: var(--font-matter);
+  font-size: 11.5px;
+  color: var(--color-silver-mist);
+  margin: 0 0 0.65rem 0;
+  line-height: 1.35;
+}
+
+.manual-token-input-row {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.manual-token-input {
+  flex: 1;
+  font-size: 12px;
+  padding: 8px 12px;
+  background: rgba(0, 31, 30, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 6px;
+  color: var(--color-platinum);
+  height: 38px;
+}
+
+.btn-verify-token {
+  white-space: nowrap;
+  padding: 0 14px;
+  height: 38px;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .resend-success-banner {

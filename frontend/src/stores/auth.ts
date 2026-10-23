@@ -139,6 +139,32 @@ export const useAuthStore = defineStore('auth', () => {
     }
   }
 
+  async function verifyManualToken(tokenOrUrl: string): Promise<boolean> {
+    const targetEmail = pendingEmail.value || user.value?.email || '';
+    if (!tokenOrUrl.trim()) {
+      errorMessage.value = 'Por favor ingresa un código o enlace de validación.';
+      return false;
+    }
+
+    isLoading.value = true;
+    errorMessage.value = null;
+
+    try {
+      const res = await supabaseAuthService.verifyOtpToken(targetEmail, tokenOrUrl);
+      if (res.session && res.user) {
+        setUserFromSession(res.user, res.session.access_token);
+        closeAuthModal();
+        return true;
+      }
+      throw new Error('No se pudo verificar la sesión.');
+    } catch (err: any) {
+      errorMessage.value = err.message || 'Código o enlace no válido o expirado.';
+      return false;
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
   function setUserFromSession(newUser: User, newToken: string) {
     user.value = newUser;
     token.value = newToken;
@@ -169,6 +195,7 @@ export const useAuthStore = defineStore('auth', () => {
     closeAuthModal,
     login,
     register,
+    verifyManualToken,
     resendVerificationEmail,
     setUserFromSession,
     logout,
