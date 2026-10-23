@@ -233,6 +233,31 @@ export const supabaseAuthService = {
    * Procesa la confirmación de cuenta desde el enlace de correo (Callback)
    */
   async handleAuthCallback(): Promise<{ session: any; user: User | null }> {
+    // 0. Si la URL contiene el fragmento hash con access_token (comportamiento estándar de Supabase email redirect)
+    if (typeof window !== 'undefined' && window.location.hash && window.location.hash.includes('access_token')) {
+      try {
+        const hashParams = new URLSearchParams(window.location.hash.replace(/^#/, ''));
+        const accessToken = hashParams.get('access_token');
+        const refreshToken = hashParams.get('refresh_token');
+
+        if (accessToken) {
+          const { data, error } = await supabase.auth.setSession({
+            access_token: accessToken,
+            refresh_token: refreshToken || '',
+          });
+
+          if (!error && data?.session && data?.user) {
+            return {
+              session: data.session,
+              user: this.mapUser(data.user),
+            };
+          }
+        }
+      } catch (hashErr) {
+        console.warn('Error parsing auth hash tokens:', hashErr);
+      }
+    }
+
     // 1. Verificar si hay código PKCE en URL search params
     const url = new URL(window.location.href);
     const code = url.searchParams.get('code');
