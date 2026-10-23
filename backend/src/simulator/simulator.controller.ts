@@ -1,5 +1,5 @@
 import { Controller, Get, Post, Body, Param } from '@nestjs/common';
-import { SimulatorService, SimulatorState } from './simulator.service';
+import { SimulatorService, type SimulatorState } from './simulator.service';
 
 @Controller('api/simulator')
 export class SimulatorController {
