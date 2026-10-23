@@ -13,12 +13,12 @@ export class ResendEmailService {
 
   constructor() {
     this.apiKey = process.env.RESEND_API_KEY?.trim() || null;
-    this.fromEmail = process.env.RESEND_FROM_EMAIL?.trim() || 'GaIA Consultas <onboarding@resend.dev>';
+    this.fromEmail = process.env.RESEND_FROM_EMAIL?.trim() || 'GaIA AgroTech <notificaciones@perte.design>';
     this.toEmail = process.env.RESEND_TO_EMAIL?.trim() || 'consultas@gaia-agritech.com';
 
     if (this.apiKey) {
       this.resend = new Resend(this.apiKey);
-      this.logger.log(`📧 Resend Email Service inicializado. Destinatario preestablecido: ${this.toEmail}`);
+      this.logger.log(`📧 Resend Email Service inicializado. Remitente: ${this.fromEmail} | Destinatario: ${this.toEmail}`);
     } else {
       this.logger.warn(
         `⚠️ RESEND_API_KEY no detectada en .env. Los correos se registrarán en modo simulación (console log) hasta que configures tu API key de Resend.`
